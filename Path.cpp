@@ -37,6 +37,8 @@ Path Path::relativize(Path other) {
 }
 
 Path Path::resolve(std::string subpath) {
+	Path sub = Paths::get(subpath);
+	if (sub.isAbsolute()) return sub;
 	Path path;
 	if (subpath == ".") path.path = this->path;
 	else path.path = concat(this->path, subpath);
@@ -44,6 +46,7 @@ Path Path::resolve(std::string subpath) {
 }
 
 Path Path::resolve(Path subpath) {
+	if (subpath.isAbsolute()) return subpath;
 	Path path;
 	if (subpath.path == ".") path.path = this->path;
 	else path.path = concat(this->path, subpath.path);
@@ -74,6 +77,10 @@ std::string Path::getFileName() {
 std::string Path::toString() {
 	if (path[0] == '.' && path[1] == '/') return path.substr(2);
 	else return path;
+}
+
+bool Path::isAbsolute() {
+	return (path.size() > 0 && path[0] == '/') || (path.size() > 1 && path[1] == ':');
 }
 
 namespace {
@@ -166,5 +173,43 @@ Path Path::toAbsolutePath() {
 	char buffer[1001];
 	realpath(path.c_str(), buffer);
 	return Paths::get(buffer);
+#endif
+}
+
+#ifdef SYS_OSX
+#include <mach-o/dyld.h>
+#endif
+
+#ifdef SYS_LINUX
+#include <unistd.h>
+#endif
+
+Path Paths::executableDir() {
+#ifdef SYS_WINDOWS
+	char path[MAX_PATH];
+	HMODULE module = GetModuleHandle(nullptr);
+	GetModuleFileNameA(module, path, sizeof(path));
+	std::string s(path);
+	s = s.substr(0, lastIndexOf(s, '\\'));
+	if (endsWith(s, "build\\Debug") || endsWith(s, "build\\Release")) {
+		for (int i = 0; i < 2; ++i) s = s.substr(0, lastIndexOf(s, '\\'));
+	}
+	return Paths::get(s);
+#endif
+#ifdef SYS_OSX
+	unsigned pathsize = 1001;
+	char path[pathsize];
+	_NSGetExecutablePath(path, &pathsize);
+	std::string s(path);
+	s = s.substr(0, lastIndexOf(s, '/'));
+	return Paths::get(s);
+#endif
+#ifdef SYS_LINUX
+	int pathsize = 1001;
+	char path[pathsize];
+	readlink("/proc/self/exe", path, pathsize);
+	std::string s(path);
+	s = s.substr(0, lastIndexOf(s, '/'));
+	return Paths::get(s);
 #endif
 }

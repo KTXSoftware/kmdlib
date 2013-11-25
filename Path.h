@@ -12,6 +12,7 @@ namespace kake {
 		bool startsWith(Path other);
 		Path relativize(Path other);
 		std::string getFileName();
+		bool isAbsolute();
 
 		std::string path;
 	};
@@ -22,5 +23,6 @@ namespace kake {
 		Path get(std::string a, std::string b, std::string c);
 		Path get(std::string a, std::string b, std::string c, std::string d);
 		Path get(std::string a, std::string b, std::string c, std::string d, std::string e);
+		Path executableDir();
 	}
 }
