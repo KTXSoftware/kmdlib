@@ -97,13 +97,19 @@ void Files::copy(Path from, Path to, bool replace) {
 #ifdef SYS_LINUX
 	pid_t pid = fork();
 	if (pid == 0) {
-		execl("/bin/cp", "/bin/cp", from.path.c_str(), to.path.c_str(), (char *)0);
+		execl("/bin/cp", "/bin/cp", from.path.c_str(), to.path.c_str(), (char*)0);
+	}
+	else {
+		while (wait(NULL) > 0);
 	}
 #endif
 #ifdef SYS_OSX
 	pid_t pid = fork();
 	if (pid == 0) {
-		execl("/bin/cp", "/bin/cp", from.path.c_str(), to.path.c_str(), (char *)0);
+		execl("/bin/cp", "/bin/cp", from.path.c_str(), to.path.c_str(), (char*)0);
+	}
+	else {
+		while (wait(NULL) > 0);
 	}
 #endif
 }
