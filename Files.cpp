@@ -153,3 +153,16 @@ std::vector<Path> Files::newDirectoryStream(Path path) {
 	return files;
 #endif
 }
+
+void Files::removeDirectory(Path path) {
+#ifdef SYS_WINDOWS
+	SHFILEOPSTRUCTA op = { 0 };
+	op.wFunc = FO_DELETE;
+	op.fFlags = FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR;
+	char from[303];
+	for (int i = 0; i < 303; ++i) from[i] = 0;
+	strcpy(from, path.toAbsolutePath().toString().c_str());
+	op.pFrom = from;
+	SHFileOperationA(&op);
+#endif
+}
