@@ -151,7 +151,6 @@ Path Paths::get(std::string a, std::string b, std::string c, std::string d, std:
 	return path;
 }
 
-#include "String.h"
 #ifdef SYS_WINDOWS
 #include <Windows.h>
 #endif

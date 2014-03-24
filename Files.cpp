@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <cstring>
