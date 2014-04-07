@@ -206,8 +206,11 @@ Path Paths::executableDir() {
 #ifdef SYS_LINUX
 	int pathsize = 1001;
 	char path[pathsize];
+	for (int i = 0; i < 1001; ++i) path[i] = 0;
 	readlink("/proc/self/exe", path, pathsize);
 	std::string s(path);
+	//s = "/home/robert/Projekte/BlocksFromHeaven-Kore/Kore/Tools/kake/kake";
+	printf("exe path: %s", s.c_str());
 	s = s.substr(0, lastIndexOf(s, '/'));
 	return Paths::get(s);
 #endif
