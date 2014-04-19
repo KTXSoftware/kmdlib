@@ -3,7 +3,7 @@
 #include "Path.h"
 #include <vector>
 
-namespace kake {
+namespace kmd {
 	namespace Files {
 		bool exists(Path path);
 		void createDirectories(Path path);

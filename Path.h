@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace kake {
+namespace kmd {
 	struct Path {
 		Path resolve(std::string subpath);
 		Path resolve(Path subpath);

@@ -92,7 +92,7 @@ namespace Json {
 		std::string string() { return myValue->string(); }
 		void add(std::string name, Value* value) { myValue->add(name, value); }
 		bool has(std::string key) { return myValue->has(key); }
-		void save(kake::Path path);
+		void save(kmd::Path path);
 	private:
 		Value* myValue;
 	};

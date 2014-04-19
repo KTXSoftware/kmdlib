@@ -2,7 +2,7 @@
 #include "StringHelper.h"
 #include <sstream>
 
-using namespace kake;
+using namespace kmd;
 
 namespace {
 	std::string concat(std::string a, std::string b) {

@@ -24,7 +24,7 @@
 #include <errno.h>
 #endif
 
-using namespace kake;
+using namespace kmd;
 
 bool Files::exists(Path path) {
 #ifdef SYS_WINDOWS
